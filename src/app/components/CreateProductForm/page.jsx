@@ -1,7 +1,11 @@
 'use client';
+import { errorToast, successToast } from '@/libs/toast';
 import React, { useState, useRef } from 'react';
 
 const CreateProductForm = () => {
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [price, setPrice] = useState('');
   const [imageFile, setImageFile] = useState([]);
   const inputRef = useRef(null);
   const showInput = () => {
@@ -20,10 +24,35 @@ const CreateProductForm = () => {
     ]);
   };
 
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    if (!title && !desc && !price && imageFile.length === 0)
+      errorToast('All feilds are required!');
+
+    const res = await fetch('/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        description: desc,
+        price,
+        image: imageFile,
+      }),
+    });
+    const data = await res.json();
+    if (data.success) successToast("Product Created!")
+    else errorToast("Failed to create data")
+  };
+
   return (
     <div className='w-full'>
-      <form className='flex w-full flex-col gap-4 md:w-[60%]'>
-        <div className='parent flex w-full flex-col gap-3 md:flex-row md:gap-6'>
+      <form
+        onSubmit={onSubmitHandler}
+        className='flex w-full flex-col gap-4 overflow-hidden rounded-md border bg-white p-8 md:w-[80%]'
+      >
+        <div className='parent flex w-full flex-col gap-3 lg:flex-row lg:gap-6'>
           <div className='flex w-full flex-col gap-2'>
             <label
               className='text-lg font-semibold text-[#333]'
@@ -39,6 +68,8 @@ const CreateProductForm = () => {
               required
               minLength={6}
               autoComplete='off'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
@@ -57,6 +88,8 @@ const CreateProductForm = () => {
               required
               maxLength={12}
               autoComplete='off'
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
         </div>
@@ -75,6 +108,8 @@ const CreateProductForm = () => {
             cols='30'
             rows='4'
             placeholder='Enter your description..'
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
           ></textarea>
         </div>
 
@@ -91,24 +126,37 @@ const CreateProductForm = () => {
           <div className='flex gap-3'>
             <div
               onClick={showInput}
-              className={`upload flex h-[80px] w-[150px] cursor-pointer items-center justify-center rounded border-2 text-[#555] transition duration-300 hover:border-indigo-300 hover:text-indigo-300 ${imageFile.length > 2 ? "border-red-400 text-red-400 hover:text-red-400 hover:border-red-400" : null}`}
+              className={`upload flex h-[80px] w-[150px] cursor-pointer items-center justify-center rounded border-2 text-[#555] transition duration-300 hover:border-indigo-300 hover:text-indigo-300 ${
+                imageFile.length > 2
+                  ? 'border-red-400 text-red-400 hover:border-red-400 hover:text-red-400'
+                  : null
+              }`}
             >
               Upload Image
             </div>
             {imageFile && (
               <div className='flex gap-3'>
-                {imageFile.map((image) => (
-                  <div className='h-[80px] w-[120px] border object-contain border-green-300 overflow-hidden'>
+                {imageFile.map((image, index) => (
+                  <div
+                    key={index}
+                    className='h-[80px] w-[120px] overflow-hidden border border-green-300 object-contain'
+                  >
                     <img
                       src={image.imageUrl}
                       alt={'image'}
-                      className='w-[120px] h-[80px]'
+                      className='h-[80px] w-[120px]'
                     />
                   </div>
                 ))}
               </div>
             )}
           </div>
+        </div>
+
+        <div>
+          <button className=' rounded-md border bg-indigo-500 px-5 py-2 text-white'>
+            Create Product
+          </button>
         </div>
       </form>
     </div>
