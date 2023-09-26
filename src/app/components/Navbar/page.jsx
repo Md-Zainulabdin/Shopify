@@ -10,8 +10,15 @@ const Navbar = () => {
         <Link href={'/'}>
           <h1 className='text-2xl font-bold text-[#222]'>Shopify</h1>
         </Link>
-        <ul  className='mt-[3px]'>
-          <li><Link href={'/Products'} className='text-md text-[#333] hover:text-[#555]'>Products</Link></li>
+        <ul className='mt-[3px]'>
+          <li>
+            <Link
+              href={'/Products'}
+              className='text-md text-[#333] hover:text-[#555]'
+            >
+              Products
+            </Link>
+          </li>
         </ul>
       </div>
 

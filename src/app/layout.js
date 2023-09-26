@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
-          {children}
+          <div className='w-full px-[20px] md:px-[50px] py-[20px]'>
+            {children}
+          </div>
         </AuthProvider>
       </body>
     </html>
