@@ -13,9 +13,7 @@ const ProductCard = () => {
   }, [fetch]);
 
   if (initialLoading) {
-    return (
-      <div>Loading...</div>
-    )
+    return <div>Loading...</div>;
   }
 
   return (

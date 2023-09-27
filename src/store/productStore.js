@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 
-const useProductStore = create((set) => ({
+const productStore = (set) => ({
     productList: [],
     initialLoading: true,
     fetch: async () => {
@@ -16,6 +17,16 @@ const useProductStore = create((set) => ({
             console.error('Error fetching data:', error);
         }
     }
-}));
+});
+
+const useProductStore = create(
+    devtools(
+        persist(
+            productStore, {
+                name: "products"
+            }
+        )
+    )
+)
 
 export default useProductStore;
