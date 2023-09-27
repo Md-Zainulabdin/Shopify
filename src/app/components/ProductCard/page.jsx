@@ -1,25 +1,27 @@
 'use client';
 import useCartStore from '@/store/cartStore';
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import useProductStore from '@/store/productStore';
+import React, { useEffect } from 'react';
 import { BiShoppingBag } from 'react-icons/bi';
 
 const ProductCard = () => {
   const addItem = useCartStore((state) => state.addItem);
-  const [productList, setProductList] = useState();
-
+  const { fetch, initialLoading, productList } = useProductStore();
   useEffect(() => {
-    fetch('/api/products')
-      .then((res) => res.json())
-      .then((data) => {
-        setProductList(data?.data);
-      });
-  }, []);
+    fetch();
+  }, [fetch]);
+
+  if (initialLoading) {
+    return (
+      <div>Loading...</div>
+    )
+  }
 
   return (
     <div className='flex w-full flex-wrap gap-6'>
-      {productList &&
-        productList.map((item) => (
+      {productList.data &&
+        productList?.data?.map((item) => (
           <div
             key={item._id}
             className='relative w-[270px] cursor-pointer overflow-hidden rounded-lg border bg-white shadow-sm'

@@ -1,12 +1,13 @@
 "use client"
 import useCartStore from '@/store/cartStore';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiShoppingBag } from 'react-icons/fi';
 import { MdOutlineAccountCircle } from 'react-icons/md';
 
 const Navbar = () => {
   const cart = useCartStore((state) => state.cart);
+
   return (
     <nav className='flex h-[70px] fixed top-0 left-0 w-full items-center justify-between border-b px-[20px] md:h-[70px] md:px-[50px]'>
       <div className='logo flex items-center gap-6'>
