@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
         <ToastContainer />
         <AuthProvider>
           <Navbar />
-          <div className='w-full px-[20px] md:px-[50px] py-[20px]'>
+          <div className='w-full px-[20px] mt-[70px] md:px-[50px] py-[20px]'>
             {children}
           </div>
         </AuthProvider>

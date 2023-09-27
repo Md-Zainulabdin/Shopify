@@ -23,4 +23,22 @@ export const POST = async (req, res) => {
             success: false,
         })
     }
-}  
+}
+
+export const GET = async () => {
+    try {
+        await connectMongoDB();
+        const data = await Product.find({});
+        if (!data) NextResponse.error("Server Error!");
+        return NextResponse.json({
+            data,
+            status: 200
+        })
+
+    } catch (error) {
+        return NextResponse.json({
+            message: "Failed get Data",
+            success: false,
+        })
+    }
+}

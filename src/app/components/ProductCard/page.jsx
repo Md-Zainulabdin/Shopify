@@ -1,12 +1,23 @@
-import { ProductList } from '@/libs/ProductList';
+'use client';
+import useCartStore from '@/store/cartStore';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BiShoppingBag } from 'react-icons/bi';
 
-const ProductCard = async () => {
-  const productList = await ProductList();
+const ProductCard = () => {
+  const addItem = useCartStore((state) => state.addItem);
+  const [productList, setProductList] = useState();
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((data) => {
+        setProductList(data?.data);
+      });
+  }, []);
+
   return (
-    <div className='w-full flex gap-6 flex-wrap'>
+    <div className='flex w-full flex-wrap gap-6'>
       {productList &&
         productList.map((item) => (
           <div
@@ -18,7 +29,7 @@ const ProductCard = async () => {
                 <img
                   src={item.image[0].imageUrl}
                   alt={item.title}
-                  className='w-full h-full object-cover transition duration-300 hover:scale-[1.05] '
+                  className='h-full w-full object-cover transition duration-300 hover:scale-[1.05] '
                 />
               </div>
 
@@ -40,7 +51,10 @@ const ProductCard = async () => {
               </div>
 
               <div className='product-btn w-full p-3'>
-                <div className='flex w-full items-center justify-center rounded-md  border p-3 text-center text-[#333] transition duration-300 hover:bg-[#111] hover:text-white'>
+                <div
+                  onClick={() => addItem(item)}
+                  className='flex w-full items-center justify-center rounded-md  border p-3 text-center text-[#333] transition duration-300 hover:bg-[#111] hover:text-white'
+                >
                   <BiShoppingBag />
                 </div>
               </div>
