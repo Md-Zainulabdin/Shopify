@@ -28,7 +28,7 @@ const Navbar = () => {
       <div className='menu flex items-center gap-6'>
         <Link href={'/Cart'} className='flex items-center gap-2'>
           <FiShoppingBag size={20} className='text-[#333] hover:text-[#555]' />{' '}
-          ({cart.length})
+          {`(${cart.length})`}
         </Link>
         <Link href={'/Profile'}>
           <MdOutlineAccountCircle

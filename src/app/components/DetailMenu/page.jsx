@@ -16,7 +16,7 @@ const DetailMenu = () => {
       </div>
 
       <div className='back-icon'>
-        <CgChevronRightR size={26} className={`text-[#555]`} />
+        {/* <CgChevronRightR size={26} className={`text-[#555]`} /> */}
       </div>
     </div>
   );

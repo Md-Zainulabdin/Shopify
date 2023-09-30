@@ -5,7 +5,7 @@ const Home = () => {
 
   return (
     <div className='w-full h-[90vh]'>
-      <h1>Home</h1>
+      <h1 className='py-8 text-2xl font-semibold text-[#333]'>Products</h1>
       <ProductCard/>
     </div>
   )
